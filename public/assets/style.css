@@ -1,1 +1,176 @@
-/* styles added incrementally */
+/* Override Bulma dark theme tokens */
+:root {
+    --bulma-body-background-color: #0f1117;
+    --bulma-scheme-main: #1a1d27;
+    --bulma-border: #2d3148;
+    --accent: #7c6af7;
+    --error: #ef4444;
+    --surface-alt: #1e2130;
+}
+
+html[data-theme="dark"] {
+    color-scheme: dark;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: #0f1117;
+    color: #e2e8f0;
+}
+
+.navbar {
+    background: #1a1d27 !important;
+    border-bottom: 1px solid #2d3148;
+    flex-shrink: 0;
+}
+
+.navbar-item {
+    color: var(--accent) !important;
+    letter-spacing: 0.05em;
+}
+
+/* ---- split pane ---- */
+
+.panes {
+    display: grid;
+    grid-template-columns: 1fr 4px 1fr;
+    flex: 1;
+    overflow: hidden;
+    min-height: 0;
+}
+
+.pane {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 0;
+}
+
+.divider {
+    background: #2d3148;
+    cursor: col-resize;
+    transition: background 0.15s;
+}
+
+.divider:hover {
+    background: var(--accent);
+}
+
+/* ---- input pane ---- */
+
+.pane-input textarea {
+    flex: 1;
+    width: 100%;
+    background: #1a1d27;
+    color: #e2e8f0;
+    border: 1px solid transparent;
+    padding: 16px;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    resize: none;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+/* ---- output pane ---- */
+
+.pane-output {
+    background: var(--surface-alt);
+    display: flex;
+    flex-direction: column;
+}
+
+#output {
+    flex: 1;
+    padding: 16px;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #e2e8f0;
+    overflow: auto;
+    white-space: pre-wrap;
+    word-break: break-all;
+    margin: 0;
+    background: transparent;
+}
+
+/* ---- tabs (Bulma override) ---- */
+
+.tabs {
+    background: #1a1d27;
+    border-bottom: 1px solid #2d3148 !important;
+    flex-shrink: 0;
+    margin-bottom: 0 !important;
+}
+
+.tabs ul {
+    border-bottom: none !important;
+}
+
+.tabs ul li a {
+    color: #64748b;
+    border-bottom: 2px solid transparent;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: color 0.15s;
+}
+
+.tabs ul li a:hover {
+    color: #e2e8f0;
+    background: transparent;
+    border-bottom-color: #2d3148 !important;
+}
+
+.tabs ul li.is-active a {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    background: transparent;
+}
+
+/* ---- error state ---- */
+
+.pane-input textarea.error {
+    border-color: var(--error) !important;
+    animation: shake 0.3s ease;
+}
+
+#editor.error .cm-editor {
+    outline: 1px solid var(--error);
+    animation: shake 0.3s ease;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%       { transform: translateX(-5px); }
+    40%       { transform: translateX(5px); }
+    60%       { transform: translateX(-4px); }
+    80%       { transform: translateX(4px); }
+}
+
+/* ---- copy button ---- */
+
+#copy {
+    align-self: flex-end;
+    margin: 8px;
+    border-color: #2d3148;
+    color: #64748b;
+    background: transparent;
+    transition: color 0.15s, border-color 0.15s;
+}
+
+#copy:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: transparent;
+}
+
+#copy.copied {
+    border-color: var(--accent);
+    color: var(--accent);
+}
