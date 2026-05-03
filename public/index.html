@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>json2anything</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+    <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+    <nav class="navbar" role="navigation">
+        <div class="navbar-brand">
+            <span class="navbar-item has-text-weight-bold">json2anything</span>
+        </div>
+    </nav>
+    <main class="panes">
+        <div class="pane pane-input">
+            <textarea id="input" placeholder="Paste JSON here..."></textarea>
+        </div>
+        <div class="divider"></div>
+        <div class="pane pane-output">
+            <div class="tabs">
+                <ul>
+                    <li class="is-active" data-format="yaml"><a>YAML</a></li>
+                    <li data-format="php"><a>PHP Array</a></li>
+                    <li data-format="typescript"><a>TypeScript</a></li>
+                    <li data-format="sql"><a>SQL</a></li>
+                    <li data-format="csv"><a>CSV</a></li>
+                </ul>
+            </div>
+            <pre id="output"></pre>
+            <button id="copy" class="button is-small">Copy</button>
+        </div>
+    </main>
+    <script type="module" src="/assets/app.js"></script>
+</body>
+</html>
