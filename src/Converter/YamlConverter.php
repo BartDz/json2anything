@@ -2,7 +2,7 @@
 
 namespace App\Converter;
 
-class YamlConverter
+class YamlConverter implements ConverterInterface
 {
     public function convert(array $data): string
     {

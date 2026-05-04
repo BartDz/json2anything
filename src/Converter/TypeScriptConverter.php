@@ -2,7 +2,7 @@
 
 namespace App\Converter;
 
-class TypeScriptConverter
+class TypeScriptConverter implements ConverterInterface
 {
     private array $interfaces = [];
     private array $interfaceNames = [];
@@ -21,6 +21,11 @@ class TypeScriptConverter
             return;
         }
         $this->interfaceNames[$name] = true;
+
+        if (empty($data)) {
+            $this->interfaces[] = "interface $name {}";
+            return;
+        }
 
         $lines = ["interface $name {"];
         foreach ($data as $key => $value) {

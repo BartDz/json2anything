@@ -2,7 +2,7 @@
 
 namespace App\Converter;
 
-class PhpArrayConverter
+class PhpArrayConverter implements ConverterInterface
 {
     public function convert(array $data): string
     {

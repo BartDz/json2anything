@@ -2,9 +2,16 @@
 
 namespace App\Converter;
 
-class SqlConverter
+class SqlConverter implements ConverterInterface
 {
-    public function convert(array $data, string $table = 'items'): string
+    private string $table;
+
+    public function __construct(string $table = 'items')
+    {
+        $this->table = $table;
+    }
+
+    public function convert(array $data): string
     {
         $rows = (array_is_list($data) && isset($data[0]) && is_array($data[0]))
             ? $data
@@ -31,6 +38,6 @@ class SqlConverter
             return '(' . implode(', ', $values) . ')';
         }, $rows);
 
-        return "INSERT INTO `$table` ($columnList)\nVALUES\n" . implode(",\n", $valueRows) . ';';
+        return "INSERT INTO `{$this->table}` ($columnList)\nVALUES\n" . implode(",\n", $valueRows) . ';';
     }
 }

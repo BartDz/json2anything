@@ -25,41 +25,36 @@ $app->post('/convert', function (Request $request, Response $response) {
     $input = $body['input'] ?? '';
     $to    = $body['to'] ?? 'yaml';
 
-    $inputSize = strlen($input);
-    if ($inputSize > 102400) {
-        $payload = json_encode(['output' => null, 'error' => 'Input exceeds 100KB limit']);
-        $response->getBody()->write($payload);
+    if (strlen($input) > 102400) {
+        $response->getBody()->write(json_encode(['output' => null, 'error' => 'Input exceeds 100KB limit']));
         return $response->withHeader('Content-Type', 'application/json')->withStatus(413);
     }
 
     $data = json_decode($input, true);
     if (json_last_error() !== JSON_ERROR_NONE) {
-        $payload = json_encode(['output' => null, 'error' => json_last_error_msg()]);
-        $response->getBody()->write($payload);
+        $response->getBody()->write(json_encode(['output' => null, 'error' => json_last_error_msg()]));
         return $response->withHeader('Content-Type', 'application/json')->withStatus(400);
     }
 
     if (!is_array($data)) {
-        $payload = json_encode(['output' => null, 'error' => 'Input must be a JSON object or array']);
-        $response->getBody()->write($payload);
+        $response->getBody()->write(json_encode(['output' => null, 'error' => 'Input must be a JSON object or array']));
         return $response->withHeader('Content-Type', 'application/json')->withStatus(400);
     }
 
-    try {
-        $output = match ($to) {
-            'yaml'       => (new YamlConverter())->convert($data),
-            'php'        => (new PhpArrayConverter())->convert($data),
-            'typescript' => (new TypeScriptConverter())->convert($data),
-            'sql'        => (new SqlConverter())->convert($data),
-            'csv'        => (new CsvConverter())->convert($data),
-            default      => throw new \InvalidArgumentException("Unknown format: $to"),
-        };
-    } catch (\InvalidArgumentException $e) {
-        $payload = json_encode(['output' => null, 'error' => $e->getMessage()]);
-        $response->getBody()->write($payload);
+    $converters = [
+        'yaml'       => new YamlConverter(),
+        'php'        => new PhpArrayConverter(),
+        'typescript' => new TypeScriptConverter(),
+        'sql'        => new SqlConverter(),
+        'csv'        => new CsvConverter(),
+    ];
+
+    if (!isset($converters[$to])) {
+        $response->getBody()->write(json_encode(['output' => null, 'error' => "Unknown format: $to"]));
         return $response->withHeader('Content-Type', 'application/json')->withStatus(400);
     }
 
+    $output = $converters[$to]->convert($data);
     $response->getBody()->write(json_encode(['output' => $output, 'error' => null]));
     return $response->withHeader('Content-Type', 'application/json');
 });

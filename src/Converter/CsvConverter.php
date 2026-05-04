@@ -2,10 +2,14 @@
 
 namespace App\Converter;
 
-class CsvConverter
+class CsvConverter implements ConverterInterface
 {
     public function convert(array $data): string
     {
+        if (empty($data)) {
+            return '';
+        }
+
         $rows = (array_is_list($data) && isset($data[0]) && is_array($data[0]))
             ? $data
             : [$data];

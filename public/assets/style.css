@@ -174,3 +174,48 @@ body {
     border-color: var(--accent);
     color: var(--accent);
 }
+
+/* ---- codemirror overrides ---- */
+
+#editor {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.cm-editor {
+    flex: 1;
+    height: 100%;
+    font-size: 13px;
+}
+
+.cm-scroller {
+    overflow: auto;
+    font-family: 'JetBrains Mono', 'Courier New', monospace !important;
+}
+
+/* ---- misc polish ---- */
+
+::selection {
+    background: var(--accent);
+    color: #fff;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1a1d27;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #2d3148;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent);
+}
